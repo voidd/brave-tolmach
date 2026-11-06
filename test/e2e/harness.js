@@ -130,6 +130,7 @@ export function readBubble(target) {
       from: host.shadowRoot.querySelector('[aria-label=From]').value,
       to: host.shadowRoot.querySelector('[aria-label=To]').value,
       autoLabel: host.shadowRoot.querySelector('option[value=auto]').text,
+      arrow: host.shadowRoot.querySelector('header span').textContent,
       direction: body.dir,
       isError: body.classList.contains('error'),
       background: getComputedStyle(bubble).backgroundColor,

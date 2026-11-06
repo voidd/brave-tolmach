@@ -38,6 +38,8 @@ describe('translation bubble', () => {
     assert.equal(bubble.from, 'en');
     assert.equal(bubble.to, 'ru');
     assert.equal(bubble.direction, 'auto');
+    assert.equal(bubble.autoLabel, 'Detected: English');
+    assert.equal(bubble.arrow, '→');
     assert.equal(bubble.isError, false);
     assert.equal(bubble.top, selection.bottom + 8);
     assert.equal(bubble.left, selection.left);
@@ -132,6 +134,7 @@ describe('translation bubble', () => {
     await page.getByLabel('To').selectOption('fr');
 
     await waitForBubbleText('Translating…');
+    assert.equal((await readBubble(page)).autoLabel, 'Detect language');
   });
 
   test('shows a failure when translating again', async () => {
@@ -317,5 +320,27 @@ describe('translation bubble', () => {
 
     assert.ok(await readBubble(frame));
     assert.equal(await readBubble(page), null);
+  });
+});
+
+describe('translation bubble after the extension reloads', () => {
+  test('asks for a page reload', async () => {
+    const browser = await launch({ canScriptPages: true });
+    const page = await browser.context.newPage();
+    await page.goto(SITE);
+    await stubTranslation(browser.worker, { body: translationBody() });
+    await selectElement(page, 'intro');
+    await clickMenuItem(browser.worker, page);
+
+    await browser.worker.evaluate(() => { setTimeout(() => chrome.runtime.reload(), 0); });
+    await page.waitForTimeout(500);
+    await page.getByLabel('To').selectOption('fr');
+
+    await page.waitForFunction(() => {
+      const body = document.getElementById('tolmach-bubble').shadowRoot.querySelector('p');
+      return body.textContent === 'Tolmach was updated. Reload this page to translate again.'
+        && body.classList.contains('error');
+    });
+    await browser.close();
   });
 });
