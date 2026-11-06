@@ -1,0 +1,10 @@
+{
+  "testRunner": "command",
+  "commandRunner": { "command": "npm run test:all --silent" },
+  "mutate": ["extension/**/*.js"],
+  "reporters": ["clear-text", "progress", "html"],
+  "htmlReporter": { "fileName": "reports/mutation.html" },
+  "concurrency": 4,
+  "timeoutMS": 20000,
+  "ignorePatterns": ["reports"]
+}

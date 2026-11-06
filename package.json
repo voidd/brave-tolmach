@@ -1,0 +1,15 @@
+{
+  "name": "tolmach",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test \"test/unit/**/*.test.js\"",
+    "test:e2e": "node --test --test-concurrency=1 \"test/e2e/**/*.test.js\"",
+    "test:all": "npm test && npm run test:e2e",
+    "test:mutation": "stryker run"
+  },
+  "devDependencies": {
+    "@stryker-mutator/core": "^10.1.1",
+    "playwright": "^1.65.0"
+  }
+}

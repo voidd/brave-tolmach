@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Tolmach options</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body { max-width: 560px; margin: 32px auto; padding: 0 16px; font: 14px/1.45 system-ui, sans-serif; }
+    h1 { font-size: 20px; }
+    .row { display: flex; align-items: center; gap: 8px; }
+    select { flex: 1; min-width: 0; padding: 4px; }
+  </style>
+</head>
+<body>
+  <h1>Language pair</h1>
+  <p>Used by the Tolmach item in the right-click menu. You can also change it in the translation bubble.</p>
+  <div class="row">
+    <select id="from" aria-label="From"></select>
+    <span>→</span>
+    <select id="to" aria-label="To"></select>
+  </div>
+  <script type="module" src="options.js"></script>
+</body>
+</html>
